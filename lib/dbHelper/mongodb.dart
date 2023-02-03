@@ -13,6 +13,11 @@ class MongoDataBase {
     userCollection = db.collection(USER_COLLECTION);
   }
 
+  static Future<List<Map<String,dynamic>>> getData() {
+    final arrayData = userCollection.find().toList();
+    return arrayData;
+  }
+
   static Future<String> insert(MongoDbModel data) async {
     try {
       var result = await userCollection.insertOne(data.toJson());

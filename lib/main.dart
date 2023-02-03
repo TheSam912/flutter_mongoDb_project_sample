@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mongo_db_sample/dbHelper/mongodb.dart';
+import 'package:flutter_mongo_db_sample/views/displayData.dart';
 import 'package:flutter_mongo_db_sample/views/insertData.dart';
 
 void main() async{
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const InsertData(),
+      home: const DisplayData(),
     );
   }
 }
