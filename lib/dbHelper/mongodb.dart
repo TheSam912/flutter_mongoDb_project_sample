@@ -31,4 +31,13 @@ class MongoDataBase {
       return e.toString();
     }
   }
+
+  static Future<void> update(MongoDbModel data) async {
+    var result = await userCollection.findOne({"id": data.id});
+    result["first_name"] = data.firstName;
+    result["last_name"] = data.lastName;
+    result["address"] = data.address;
+    var response = await userCollection.save(result);
+    inspect(response);
+  }
 }

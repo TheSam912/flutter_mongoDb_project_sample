@@ -16,8 +16,20 @@ class _InsertDataState extends State<InsertData> {
   var lnameController = TextEditingController();
   var addressController = TextEditingController();
 
+  var _checkInsertUpdate = "Insert";
+
   @override
   Widget build(BuildContext context) {
+    MongoDbModel data =
+        ModalRoute.of(context)?.settings.arguments as MongoDbModel;
+
+    if (data != null) {
+      print("------------------------${data.id}");
+      fnameController.text = data.firstName;
+      lnameController.text = data.lastName;
+      addressController.text = data.address;
+      _checkInsertUpdate = "Update";
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Insert Data"),
@@ -70,10 +82,17 @@ class _InsertDataState extends State<InsertData> {
                     child: const Text('Generate data')),
                 ElevatedButton(
                     onPressed: () {
-                      insertData(fnameController.text, lnameController.text,
-                          addressController.text);
+                      setState(() {
+                        if (_checkInsertUpdate == "Insert") {
+                          insertData(fnameController.text, lnameController.text,
+                              addressController.text);
+                        } else if (_checkInsertUpdate == "Update") {
+                          updateData(data.id, fnameController.text, lnameController.text,
+                              addressController.text);
+                        }
+                      });
                     },
-                    child: const Text('Inser data'))
+                    child: Text(_checkInsertUpdate))
               ],
             )
           ],
@@ -93,7 +112,16 @@ class _InsertDataState extends State<InsertData> {
     clearAll();
   }
 
-  void clearAll(){
+  Future<void> updateData(
+      var id, String fName, String lName, String address) async {
+    final updateData = MongoDbModel(
+        id: id, firstName: fName, lastName: lName, address: address);
+    await MongoDataBase.update(updateData).whenComplete(() {
+      Navigator.pop(context);
+    });
+  }
+
+  void clearAll() {
     fnameController.text = "";
     lnameController.text = "";
     addressController.text = "";

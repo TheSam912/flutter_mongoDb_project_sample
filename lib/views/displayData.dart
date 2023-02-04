@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mongo_db_sample/dbHelper/mongodb.dart';
 import 'package:flutter_mongo_db_sample/model/mongoDbModel.dart';
+import 'package:flutter_mongo_db_sample/views/insertData.dart';
 
 class DisplayData extends StatefulWidget {
   const DisplayData({Key? key}) : super(key: key);
@@ -68,6 +69,43 @@ class _DisplayDataState extends State<DisplayData> {
               thickness: 1,
             ),
             Text("Address: ${data.address}"),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) {
+                                    return const InsertData();
+                                  },
+                                  settings: RouteSettings(arguments: data)))
+                          .then((value) {
+                        setState(() { });
+                      });
+                    },
+                    style: ButtonStyle(
+                        side: MaterialStateProperty.all(const BorderSide(
+                            color: Colors.blue,
+                            width: 2.0,
+                            style: BorderStyle.solid))),
+                    child: const Text("Update")),
+                const SizedBox(width: 12),
+                OutlinedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        side: MaterialStateProperty.all(const BorderSide(
+                            color: Colors.red,
+                            width: 2.0,
+                            style: BorderStyle.solid))),
+                    child: const Text(
+                      "Delete",
+                      style: TextStyle(color: Colors.red),
+                    )),
+              ],
+            )
           ],
         ),
       ),
